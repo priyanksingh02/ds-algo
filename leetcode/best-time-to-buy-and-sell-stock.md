@@ -29,6 +29,16 @@ public:
     }
 };
 ```
+    For completing two transaction of buy and sell there is 4 states involve say s1, s2, s3, s4.
+    s1 is buying first share
+    s2 is selling first share
+    s3 is buying second share
+    s4 is selling second share
+
+    for s1 we can buy a share of spend money -prices[i] or continue skip.
+    for s2 we can sell a share earn profit of s1 + prices[i] or continue skip
+    for s3 we can buy a share spend money of s2 - prices[i] or continue skip
+    for s4 we can sell a share earn profit of s3 + prices[i] or continue skip
 
 ```cpp
 class Solution {
