@@ -1,4 +1,45 @@
 ```cpp
+
+struct node {
+    int count;
+    vector<node *> chars;
+    node(): count(0), chars(vector<node *>(26, nullptr)) {}
+};
+
+void insert(node * root, const string & s) {
+    for(int i = 0; i < s.size(); ++i) {
+        int pos = s[i] - 'a';
+        if(!root->chars[pos])
+            root->chars[pos] = new node();
+        root = root->chars[pos];
+        root->count++;
+    }
+}
+
+string search(node * root, const string & s) {
+    for(int i = 0; i < s.size(); ++i) {
+        int pos = s[i] - 'a';
+        root = root->chars[pos];
+        if(root->count == 1)
+            return s.substr(0,i+1);
+    }
+    return "";
+}
+
+vector<string> Solution::prefix(vector<string> &A) {
+    node * root = new node();
+    for(auto & s: A) {
+        insert(root, s);
+    }
+    vector<string> ans;
+    for(auto & s: A) {
+        ans.push_back(search(root, s));
+    }
+    return ans;
+}
+
+```
+```cpp
 struct node {
     int count;
     vector<node *> chars;
