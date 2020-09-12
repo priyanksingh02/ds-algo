@@ -1,4 +1,58 @@
 ```cpp
+vector<bool> col;
+vector<bool> pdiag;
+vector<bool> adiag;
+int n;
+
+bool taken(int i, int j) {
+    return col[j] || pdiag[j - i + n] || adiag[i+j];
+}
+
+void mark(int i, int j) {
+    col[j] = true;
+    pdiag[j-i +n] = true;
+    adiag[i+j] = true;
+}
+
+void clear(int i, int j) {
+    col[j] = false;
+    pdiag[j-i+n] = false;
+    adiag[i+j] = false;
+}
+
+void solve(vector<string> & grid, int r, vector<vector<string>> & ans) {
+    if(r == n) {
+        ans.push_back(grid);
+        return;
+    }
+    for(int i = 0; i < n; ++i) {
+        if(!taken(r,i)) {
+            mark(r,i);
+            grid[r][i] = 'Q';
+            solve(grid, r+1, ans);
+            clear(r,i);
+            grid[r][i] = '.';
+        }
+    }
+}
+
+vector<vector<string> > Solution::solveNQueens(int A) {
+    n = A;
+    col.clear();
+    pdiag.clear();
+    adiag.clear();
+    col.resize(n, false);
+    pdiag.resize(2*n, false);
+    adiag.resize(2*n, false);
+    vector<vector<string>> ans;
+    vector<string> grid (n, string(n,'.'));
+    solve(grid, 0, ans);
+    return ans;
+    
+}
+
+```
+```cpp
 
 int sz;
 vector<bool> row;
