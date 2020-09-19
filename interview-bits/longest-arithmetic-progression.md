@@ -20,3 +20,27 @@ int Solution::solve(const vector<int> &A) {
     return mx;
 }
 ```
+
+```cpp
+
+int Solution::solve(const vector<int> &A) {
+    int n = A.size();
+    if(n <= 2)
+        return n;
+    vector<unordered_map<int,int>> m(n);
+    int maxlen = 0;
+    for(int i = 1; i < n; ++i) {
+        for(int j = 0; j < i; ++j) {
+            int dif = A[i] - A[j];
+            if(m[j].count(dif)) {
+                m[i][dif] = max(m[i][dif], m[j][dif] + 1);
+            }
+            else {
+                m[i][dif] = 2;
+            }
+            maxlen = max(maxlen, m[i][dif]);
+        }
+    }
+    return maxlen;
+}
+```

@@ -93,6 +93,67 @@ int Solution::wordBreak(string A, vector<string> &B) {
 ## Word Break II
 
 ```cpp
+
+struct node {
+    bool isleaf;
+    unordered_map<char, node*> chars;
+    node(): isleaf(false) {}
+};
+
+void insert(const string & s, node * root) {
+    for(int i = 0; i < s.size(); ++i) {
+        if(root->chars.find(s[i]) == root->chars.end())
+            root->chars[s[i]] = new node ();
+        root = root->chars[s[i]];
+    }
+    root->isleaf = true;
+}
+
+void search(const string & s, int pos, vector<vector<string>> & ans, vector<string> & cur, node * r) {
+    if(pos == s.size()) {
+        ans.push_back(cur);
+        return ;
+    }
+    node * root = r;
+    for(int i = pos; i < s.size(); ++i) {
+        if(root->chars.find(s[i]) != root->chars.end()) {
+            root = root->chars[s[i]];
+            if(root->isleaf) {
+                cur.push_back(s.substr(pos, i - pos + 1));
+                search(s, i+1, ans, cur, r);
+                cur.pop_back();
+            }
+        }
+        else 
+            break;
+    }
+}
+
+vector<string> Solution::wordBreak(string A, vector<string> &B) {
+    if(A.empty() || B.empty())
+        return {};
+    node * root = new node();
+    for(auto & b: B)
+        insert(b, root);
+    vector<vector<string>> temp_ans;
+    vector<string> row;
+    search(A, 0, temp_ans, row, root);
+    vector<string> ans;
+    for(auto & v: temp_ans) {
+        string merge;
+        for(auto & s: v) {
+            if(!merge.empty())
+                merge.push_back(' ');
+            merge += s;
+        }
+        ans.push_back(merge);
+    }
+    return ans;
+}
+
+```
+
+```cpp
 struct node {
     bool isleaf;
     vector<node *> alphabet;

@@ -40,3 +40,46 @@ string Solution::solve(int A, int B, int N, int R, vector<int> &X, vector<int> &
     return "NO";
 }
 ```
+
+```cpp
+
+bool inside_circle(int a, int b, int r, vector<int> & x, vector<int> & y) {
+    int rsq = r*r;
+    for(int i= 0; i < x.size(); ++i) {
+        int asq = abs(a-x[i]);
+        asq *= asq;
+        int bsq = abs(b-y[i]);
+        bsq *= bsq;
+        if(asq+bsq <= rsq)
+            return true;
+    }
+    return false;
+}
+ 
+string Solution::solve(int x, int y, int n, int r, vector<int> &A, vector<int> &B) {
+    if(inside_circle(0,0, r, A, B) || inside_circle(x,y,r,A,B))
+        return "NO";
+    vector<vector<bool>> visited(x+1, vector<bool> (y+1, false));
+    queue<pair<int,int>> q;
+    q.push({0,0});
+    visited[0][0] = true;
+    vector<pair<int,int>> direction = {{-1,-1},{-1,0},{-1,1},{0,-1},{0,1},{1,-1},{1,0},{1,1}};
+    auto valid = [&](int i, int j) {
+        return i >= 0 && j >= 0 && i <= x && j <= y;  
+    };
+    while(!q.empty()) {
+        auto p = q.front(); q.pop();
+        if(p.first ==x && p.second == y)
+            return "YES";
+        for(auto & d: direction) {
+            int i = p.first + d.first;
+            int j = p.second + d.second;
+            if(valid(i, j) && !visited[i][j] && !inside_circle(i,j,r, A,B)) {
+                visited[i][j] = true;
+                q.push({i,j});
+            }
+        }
+    }
+    return "NO";
+}
+```
