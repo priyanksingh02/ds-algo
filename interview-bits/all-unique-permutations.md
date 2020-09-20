@@ -1,5 +1,33 @@
 ```cpp
+bool per(vector<int> & a) {
+    if(a.size() < 2)
+        return false;
+    int i = (int)a.size() - 2;
+    while(i >= 0) {
+        if(a[i] < a[i+1]) {
+            int j = (int)a.size() - 1;
+            while(j > i && a[j] <= a[i])
+                --j;
+            swap(a[i],a[j]);
+            reverse(a.begin()+i+1, a.end());
+            return true;
+        }
+        --i;
+    }
+    return false;
+}
 
+vector<vector<int> > Solution::permute(vector<int> &a) {
+    sort(a.begin(), a.end());
+    vector<vector<int>> ans;
+    do {
+        ans.push_back(a);
+    }while(per(a));
+    return ans;
+}
+
+```
+```cpp
 // example: 2 4 3 1 -> 3 1 2 4
     // steps: 
     // starting from 1 , find val > 2 ; i,e 3 in this case
@@ -35,3 +63,4 @@ vector<vector<int> > Solution::permute(vector<int> &A) {
     return ans;
 }
 ```
+

@@ -31,3 +31,29 @@ UndirectedGraphNode *Solution::cloneGraph(UndirectedGraphNode *node) {
     return build(node, m);
 }
 ```
+
+```cpp
+
+UndirectedGraphNode * build(UndirectedGraphNode * node, 
+    unordered_map<UndirectedGraphNode*, UndirectedGraphNode*> & mapping) {
+    if(!node) {
+        return nullptr;
+    }
+    UndirectedGraphNode* root = new UndirectedGraphNode(node->label);
+    mapping[node] = root;
+    for(auto x: node->neighbors) {
+        if(mapping.find(x) != mapping.end()) {
+            root->neighbors.push_back(mapping[x]);
+        }
+        else {
+            root->neighbors.push_back(build(x, mapping));
+        }
+    }
+    return root;
+}
+
+UndirectedGraphNode *Solution::cloneGraph(UndirectedGraphNode *node) {
+    unordered_map<UndirectedGraphNode*, UndirectedGraphNode*> mapping;
+    return build(node, mapping);
+}
+```
