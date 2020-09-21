@@ -1,4 +1,36 @@
 ```cpp
+
+class Solution {
+public:
+    bool check(TreeNode * root, int low, int high) {
+        if(!root)
+            return true;
+        if(root->val < low or root->val > high)
+            return false;
+        if(root->val == INT_MIN) {
+            if(root->left)
+                return false;
+            else 
+                return check(root->right, root->val + 1, high);
+        }
+        if(root->val == INT_MAX) {
+            if(root->right)
+                return false;
+            else
+                return check(root->left, low, root->val - 1);
+        }
+        return check(root->left, low, root->val - 1) and
+            check(root->right, root->val + 1, high);
+    }
+    
+    bool isValidBST(TreeNode* root) {
+        if(!root)
+            return true;
+        return check(root, INT_MIN, INT_MAX);
+    }
+};
+```
+```cpp
 class Solution {
 public:
     bool isValidBST(TreeNode* root) {

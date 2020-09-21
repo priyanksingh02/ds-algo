@@ -1,3 +1,30 @@
+## Reverse Linked List
+```cpp
+
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if(!head or !head->next)
+            return head;
+        ListNode * newhead = reverseList(head->next);
+        head->next->next = head;
+        head->next = nullptr;
+        return newhead;
+    }
+    
+    // ListNode* reverseList(ListNode* head) {
+    //     ListNode * ans = nullptr;
+    //     while(head) {
+    //         ListNode * cur = head;
+    //         head = head->next;
+    //         cur->next = ans;
+    //         ans = cur;
+    //     }
+    //     return ans;
+    // }
+};
+```
+
 ## Reverse Linked List II
 ```cpp
 /**
