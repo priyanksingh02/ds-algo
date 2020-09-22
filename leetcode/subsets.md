@@ -1,3 +1,27 @@
+## Subsets
+```cpp
+class Solution {
+    vector<vector<int>> ans;
+public:
+    void gen(vector<int> & nums, int pos, vector<int> & cur) {
+        if(nums.size() == pos) {
+            ans.push_back(cur);
+            return;
+        }
+        cur.push_back(nums[pos]);
+        gen(nums, pos+1, cur);
+        cur.pop_back();
+        gen(nums, pos+1, cur);
+    }
+    vector<vector<int>> subsets(vector<int>& nums) {
+        if(nums.empty())
+            return {};
+        vector<int> cur;
+        gen(nums, 0, cur);
+        return ans;
+    }
+};
+```
 ## Subsets II
 ```cpp
  class Solution {
