@@ -31,3 +31,26 @@ public:
     }
 };
 ```
+## 4 Sum II
+```cpp
+class Solution {
+public:
+    int fourSumCount(vector<int>& A, vector<int>& B, vector<int>& C, vector<int>& D) {
+        unordered_map<long, int> m;
+        for(int i = 0; i < A.size(); ++i) {
+            for(int j = 0; j < B.size(); ++j) {
+                m[(long)A[i] + B[j]]++;
+            }
+        }
+        int ans = 0;
+        for(int i = 0; i < C.size(); ++i) {
+            for(int j = 0; j < D.size(); ++j) {
+                long sum = (long)C[i]+D[j];
+                if(m.count(-sum))
+                    ans+= m[-sum];
+            }
+        }
+        return ans;
+    }
+};
+```

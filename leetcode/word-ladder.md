@@ -1,3 +1,59 @@
+## Word Ladder
+```cpp
+class Solution {
+public:
+    bool one_diff(const string & a, const string & b) {
+        int dif = 0;
+        for(int i = 0; i < a.size(); ++i) {
+            if(a[i] != b[i] && ++dif > 1)
+                return false;
+        }
+        return dif == 1;
+    }
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        wordList.push_back(beginWord);
+        int n = wordList.size();
+        int src = n - 1;
+        int dest = -1;
+        for(int i= 0; i < n; ++i) {
+            if(wordList[i] == endWord) {
+                dest = i;
+                break;
+            }
+        }
+        if(dest == -1)
+            return 0; // endword not in wordlist
+        vector<vector<int>> adj(n);
+        for(int i = 0; i < n; ++i) {
+            for(int j = 0; j < n; ++j) {
+                if(one_diff(wordList[i], wordList[j])) {
+                    adj[i].push_back(j);
+                    adj[j].push_back(i);
+                }
+            }
+        }
+        queue<pair<int,int>> q;
+        vector<bool> visited(n, false);
+        q.push({src, 1});
+        visited[src] = true;
+        while(!q.empty()) {
+            auto p = q.front(); q.pop();
+            int u = p.first;
+            int len = p.second;
+            for(auto & v: adj[u]) {
+                if(v == dest) {
+                    return len + 1;
+                }
+                if(!visited[v]) {
+                    visited[v] = true;
+                    q.push({v, len+1});
+                }
+            }
+        }
+        return 0;
+    }
+};
+```
 ```cpp
 class Solution {
 public:
