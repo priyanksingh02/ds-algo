@@ -18,3 +18,14 @@ ListNode* Solution::swapPairs(ListNode* A) {
         return A;
 }
 ```
+
+```cpp
+ListNode* Solution::swapPairs(ListNode* A) {
+  if(!A or !A->next)
+    return A;
+  ListNode * B = A->next;
+  A->next = swapPairs(B->next);
+  B->next = A;
+  return B;
+}
+```
