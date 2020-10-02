@@ -1,3 +1,4 @@
+## Word Search
 ```cpp
 class Solution {
     vector<pair<int,int>> direction {{0,1},{1,0},{-1,0},{0,-1}};
@@ -32,6 +33,67 @@ public:
             }
         }
         return false;
+    }
+};
+```
+## Word Search II
+```cpp
+struct node {
+    bool is_leaf;
+    map<char, node *> chars;
+    node(): is_leaf(false) {};
+};
+
+void insert(node * root, const string & s) {
+    for(int i = 0; i < s.size(); ++i) {
+        if(!root->chars.count(s[i]))
+            root->chars[s[i]] = new node();
+        root = root->chars[s[i]];
+    }
+    root->is_leaf = true;
+}
+
+class Solution {
+    vector<string> ans;
+    vector<vector<bool>> visited;
+    vector<pair<int, int>> direction {{1,0},{0,1},{-1,0},{0,-1}};
+public:
+    void dfs(vector<vector<char>> & board, int r, int c, node * root, string & word) {
+        if(r < 0 or c < 0 or r >= board.size() or c >= board[0].size() or !root 
+           or visited[r][c] or !root->chars.count(board[r][c]))
+            return ;
+        visited[r][c] = true;
+        root = root->chars[board[r][c]];
+        word.push_back(board[r][c]);
+        if(root->is_leaf) {
+            ans.push_back(word);
+            root->is_leaf = false;
+        }
+        for(auto & d: direction) {
+            dfs(board, r+d.first, c + d.second, root, word);
+        }
+        word.pop_back();
+        visited[r][c] = false;
+    }
+    vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
+        if(board.empty() or board.front().empty())
+            return {};
+        node * root = new node();
+        for(auto & w: words)
+            insert(root, w);
+        int m = board.size();
+        int n = board[0].size();
+        for(int i = 0; i < board.size(); ++i) {
+            for(int j = 0; j < board[0].size(); ++j) {
+                if(root->chars.count(board[i][j])) {
+                    visited.clear();
+                    visited.resize(m, vector<bool> (n, false));
+                    string word;
+                    dfs(board, i, j, root, word);
+                }
+            }
+        }
+        return ans;
     }
 };
 ```
