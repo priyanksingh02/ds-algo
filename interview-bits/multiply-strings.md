@@ -106,3 +106,56 @@ string Solution::multiply(string A, string B) {
     return ans;
 }
 ```
+```cpp
+string add(const string & a, const string & b) {
+    int carry = 0;
+    int i = 0, j = 0;
+    string ans;
+    while(i < a.size() or j < b.size() or carry) {
+        int sum = carry;
+        if(i < a.size()) {
+            sum += a[i] - '0';
+            i++;
+        }
+        if(j < b.size()) {
+            sum += b[j] - '0';
+            j++;
+        }
+        ans.push_back(sum%10 + '0');
+        carry = sum/10;
+    }
+    return ans;
+}
+
+string mul(const string & a, char b) {
+    b -= '0';
+    string ans;
+    int carry = 0;
+    for(int i = 0; i < a.size(); ++i) {
+        int prod = a[i] - '0';
+        prod *= b;
+        prod += carry;
+        ans.push_back(prod%10 + '0');
+        carry = prod/10;
+    }
+    while(carry) {
+        ans.push_back(carry%10 + '0');
+        carry = carry/10;
+    }
+    return ans;
+}
+string Solution::multiply(string A, string B) {
+    reverse(A.begin(), A.end());
+    reverse(B.begin(), B.end());
+    string ans;    
+    for(int i = 0; i < A.size(); ++i) {
+        ans = add(ans, string(i, '0') + mul(B, A[i]));
+    }
+    while(!ans.empty() and ans.back() == '0')
+        ans.pop_back();
+    if(ans.empty())
+        return "0";
+    reverse(ans.begin(), ans.end());
+    return ans;
+}
+```

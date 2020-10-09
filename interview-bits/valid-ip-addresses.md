@@ -35,3 +35,40 @@ vector<string> Solution::restoreIpAddresses(string A) {
     return ans;
 }
 ```
+
+```cpp
+bool valid(const string & s) {
+    if(s.empty())
+        return false;
+    int val = stoi(s);
+    if(s[0] == '0' && val)
+        return false;
+    if(s.size() > 1 && !val)
+        return false;
+    if(val >= 0 and val <= 255)
+        return true;
+    return false;
+}
+vector<string> Solution::restoreIpAddresses(string A) {
+    vector<string> ans;
+    string cur;
+    for(int i = 1; i <= 3 && i <= A.size(); ++i) {
+        string a= A.substr(0,i);
+        if(valid(a)) {
+            for(int j = 1; j <= 3 && i + j <= A.size(); ++j) {
+                string b = A.substr(i,j);
+                if(valid(b)) {
+                    for(int k = 1; k <= 3 && i + j + k <= A.size(); ++k) {
+                        string c = A.substr(i+j, k);
+                        string d = A.substr(i+j+k);
+                        if(valid(c) && valid(d)) {
+                            ans.push_back(a + "." + b + "." + c + "." + d);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return ans;
+}
+```

@@ -18,3 +18,22 @@ int Solution::cntBits(vector<int> &A) {
     return ans%mod;
 }
 ```
+
+```cpp
+
+int Solution::cntBits(vector<int> &A) {
+    const int mod = 1e9 + 7;
+    int n = A.size();
+    int ans = 0;
+    for(int i = 0; i < 32; ++i) {
+        int one = 0;
+        for(int j = 0; j < A.size(); ++j) {
+            if((A[j]&(1<<i)))
+                ++one;
+        }
+        int zero = n - one;
+        ans = (ans + ((long)one*zero)%mod)%mod;
+    }
+    return (ans*2)%mod;
+}
+```
