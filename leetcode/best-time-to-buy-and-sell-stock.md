@@ -88,3 +88,69 @@ public:
     }
 };
 ```
+
+## Best Time to buy and sell with cooldown
+```cpp
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        if(prices.empty())
+            return 0;
+        int n = prices.size();
+        vector<int> dp(n, 0);
+        for(int i = 1; i < n; ++i) {
+            for(int j = 0; j < i; ++j) {
+                dp[i] = max(dp[i], prices[i] - prices[j] + ((j - 2>=0)?dp[j-2]:0));
+            }
+            dp[i] = max(dp[i], dp[i-1]);
+        }
+        return dp[n-1];
+    }
+    
+};
+```
+```cpp
+/* 
+    After you sell your stock, you cannot buy stock on next day. 
+        (ie, cooldown 1 day)
+
+    buy[i]: maxProfit to position i when last transaction was a buy
+    sell[i]: maxProfit to position i when last transaction was a sell
+
+    base case:
+        buy[0] = -prices[0]
+        buy[1] = max(-prices[0], -prices[1])
+        sell[0] = 0
+        
+    recurrence:
+        buy[i] = max(sell[i - 2] - prices[i], buy[i - 1])
+        sell[i] = max(buy[i - 1] + prices[i], sell[i - 1])
+*/
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        
+        if(n <= 1)
+            return 0;
+        
+        vector<int> buy(n, 0);
+        vector<int> sell(n, 0);
+        
+        buy[0] = -prices[0];
+        sell[0] = 0;
+        
+        for(int i = 1; i < n; i++) {
+            if(i > 1)
+                buy[i] = max(sell[i - 2] - prices[i], buy[i - 1]);
+            else
+                buy[i] = max(buy[i - 1], -prices[i]);
+            
+            sell[i] = max(buy[i - 1] + prices[i], sell[i - 1]);
+        }
+        
+        return sell[n - 1];
+    }
+};
+```

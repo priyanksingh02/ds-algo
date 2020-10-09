@@ -21,9 +21,39 @@ public:
 
 ```
 ## Word Break II
+Memoization of overlapping solutions
 ```cpp
-
-
+class Solution {
+    unordered_map<int, vector<string>> memo;
+public:
+    vector<string> build(string & s, int pos, unordered_set<string> & words ) {
+        if(memo.count(pos)) {
+            return memo[pos];
+        }
+        vector<string> ans;
+        if(words.count(s.substr(pos)))
+            ans.push_back(s.substr(pos));
+        for(int i = 0; i + pos < s.size(); ++i) {
+            if(words.count(s.substr(pos, i+1))) {
+                auto right = build(s, pos + i + 1, words);
+                string cur = s.substr(pos, i+1);
+                for(auto & s: right) {
+                    ans.push_back(cur + " " + s);
+                }
+            }
+        }
+        memo[pos] = ans;
+        return ans;
+    }
+    
+    vector<string> wordBreak(string s, vector<string>& wordDict) {
+        unordered_set<string> words;
+        for(auto & x: wordDict) {
+            words.insert(x);
+        }
+        return build(s,0,words);
+    }
+};
 ```
 TLE
 ```cpp

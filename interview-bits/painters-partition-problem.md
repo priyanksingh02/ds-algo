@@ -1,4 +1,42 @@
 ```cpp
+int process(int total, vector<int> & board) {
+    int req = 1;
+    int sum = 0;
+    for(int i = 0; i< board.size(); ++i) {
+        if(board[i] > total)
+            return INT_MAX; // board can't be shared
+        if(sum + board[i] > total) {
+            sum = board[i];
+            req++;
+        }
+        else {
+            sum += board[i];
+        }
+    }
+    return req;
+}
+
+int Solution::paint(int k, int b, vector<int> &C) {
+    const int mod = 1e7 + 3;
+    long sum = 0;
+    for(auto & x: C)
+        sum += x;
+    long low = 1;
+    long high = sum;
+    while(low < high) {
+        long mid = low + (high - low >> 1);
+        if(process(mid, C) > k) {
+            low = mid + 1;
+        }
+        else {
+            high = mid;
+        }
+    }
+    return (low*b)%mod;
+}
+
+```
+```cpp
 
 using ll = long long;
 const int mod = 1e7 + 3;

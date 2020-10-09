@@ -5,11 +5,6 @@ int Solution::searchInsert(vector<int> &A, int B) {
 ```
 ```cpp
 int Solution::searchInsert(vector<int> &A, int B) {
-    // Do not write main() function.
-    // Do not read input, instead use the arguments to the function.
-    // Do not print the output, instead return values as specified
-    // Still have a doubt. Checkout www.interviewbit.com/pages/sample_codes/ for more details
-
     int low = 0;
     int high = (int)A.size() - 1;
     while(low < high) {
@@ -24,5 +19,24 @@ int Solution::searchInsert(vector<int> &A, int B) {
     if(A[high] < B)
         return high + 1;
     return high;
+}
+```
+
+```cpp
+int Solution::searchInsert(vector<int> &A, int B) {
+   int low = 0;
+   int high = (int)A.size() - 1;
+   int pos = A.size();
+   while(low <= high) {
+       int mid = low + (high - low >> 1);
+       if(A[mid] >= B) {
+           pos = mid;
+           high = mid - 1;
+       }
+       else {
+           low = mid + 1;
+       }
+   }
+    return pos;
 }
 ```
