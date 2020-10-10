@@ -14,6 +14,17 @@ int Solution::removeDuplicates(vector<int> &A) {
 ## Remove duplicates from sorted array II
 ```cpp
 int Solution::removeDuplicates(vector<int> &A) {
+    int pos = 0;
+    for(int i = 0; i < A.size(); ++i) {
+        if(i + 2 < A.size() && A[i] == A[i+2])
+            continue;
+        A[pos++] = A[i];
+    }
+    return pos;
+}
+```
+```cpp
+int Solution::removeDuplicates(vector<int> &A) {
     if(A.size() <= 1)
         return A.size();
     int pos = -1;

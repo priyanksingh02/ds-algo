@@ -15,3 +15,21 @@ void Solution::sortColors(vector<int> &A) {
     
 }
 ```
+```cpp
+void Solution::sortColors(vector<int> &A) {
+    
+    int zero = -1, two = A.size();
+    for(int i = 0; i < two; ++i) {
+        if(A[i] == 0) {
+            A[++zero] = 0;
+        }
+        else if(A[i] == 2) {
+            swap(A[i], A[--two]);
+            --i;
+        }
+    }
+    for(int i = zero + 1; i < two; ++i) {
+        A[i] = 1;
+    }
+}
+```

@@ -30,3 +30,22 @@ ListNode* Solution::removeNthFromEnd(ListNode* A, int B) {
     }
 }
 ```
+
+```cpp
+ListNode* Solution::removeNthFromEnd(ListNode* A, int B) {
+    ListNode * fast = A;
+    int i = 0;
+    for(; i < B && fast; ++i) {
+        fast = fast->next;
+    }
+    if(!fast)
+        return A->next;
+    ListNode * slow = A;
+    while(fast && fast->next) {
+        fast = fast->next;
+        slow = slow->next;
+    }
+    slow->next = slow->next->next;
+    return A;
+}
+```
