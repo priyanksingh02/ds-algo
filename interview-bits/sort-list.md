@@ -1,5 +1,35 @@
 Merge Sort
 ```cpp
+ListNode* merge(ListNode * left, ListNode * right) {
+    if(!left)
+        return right;
+    if(!right)
+        return left;
+    if(left->val <= right->val) {
+        left->next = merge(left->next, right);
+        return left;
+    }
+    else {
+        right->next = merge(left, right->next);
+        return right;
+    }
+}
+ListNode* Solution::sortList(ListNode* A) {
+    if(!A or !A->next) {
+        return A;
+    }
+    ListNode * fast = A;
+    ListNode * slow = A;
+    while(fast && fast->next && fast->next->next) {
+        fast = fast->next->next;
+        slow = slow->next;
+    }
+    ListNode * b = slow->next;
+    slow->next = nullptr;
+    return merge(sortList(A), sortList(b));
+}
+```
+```cpp
 /**
  * Definition for singly-linked list.
  * struct ListNode {

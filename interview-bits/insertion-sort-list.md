@@ -62,3 +62,25 @@ ListNode* Solution::insertionSortList(ListNode* A) {
     return root;
 }
 ```
+
+```cpp
+ListNode* Solution::insertionSortList(ListNode* head) {
+    ListNode * it = head;
+    while(it && it->next) {
+        ListNode * t = it;
+        int minval = INT_MAX;
+        ListNode * p = nullptr;
+        while(t) {
+            if(t->val < minval) {
+                minval = t->val;
+                p = t;
+            }
+            t = t->next;
+        }
+        assert(p);
+        swap(it->val, p->val);
+        it = it->next;
+    }
+    return head;
+}
+```
