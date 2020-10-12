@@ -1,3 +1,4 @@
+## Diff K
 A[i] = A[j] + k
 
 1 3 5
@@ -31,6 +32,21 @@ int Solution::diffPossible(vector<int> &A, int B) {
             j++;
         else
             i++;
+    }
+    return false;
+}
+```
+## Diff K II
+```cpp
+int Solution::diffPossible(const vector<int> &A, int B) {
+    unordered_map<int,int> m;
+    for(int i = 0; i < A.size(); ++i) {
+        m[A[i]] = i;
+    }
+    for(int i = 0; i< A.size(); ++i) {
+        if(m.count(A[i] - B) && m[A[i] - B] != i) {
+            return true;
+        }
     }
     return false;
 }
