@@ -1,3 +1,46 @@
+Two Heaps to always maintain median at top.
+```cpp
+class MedianFinder {
+    priority_queue<int> left;
+    priority_queue<int, vector<int>, greater<int>> right;
+public:
+    /** initialize your data structure here. */
+    MedianFinder() {
+        
+    }
+    
+    void addNum(int num) {
+        if(left.empty() or left.top() >= num)
+            left.push(num);
+        else
+            right.push(num);
+        int l = left.size();
+        int r = right.size();
+        if(l == r or l == r+1) {
+            // do nothing
+        }
+        else if(l > r) {
+            right.push(left.top());
+            left.pop();
+        }
+        else {
+            left.push(right.top());
+            right.pop();
+        }
+    }
+    
+    double findMedian() {
+        if(left.empty())
+            return 0;
+        if(left.size() > right.size())
+            return left.top();
+        double ans = left.top();
+        ans += right.top();
+        return ans/2;
+    }
+};
+
+```
 Naive - TLE
 ```cpp
 class MedianFinder {
@@ -32,11 +75,4 @@ public:
         }
     }
 };
-
-/**
- * Your MedianFinder object will be instantiated and called as such:
- * MedianFinder* obj = new MedianFinder();
- * obj->addNum(num);
- * double param_2 = obj->findMedian();
- */
 ```

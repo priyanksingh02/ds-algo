@@ -1,3 +1,49 @@
+## Palindrome Partitioning
+```cpp
+vector<vector<bool>> pal;
+vector<vector<string>> ans;
+
+void gen(string & A, int pos, vector<string> & cur) {
+    if(pos == A.size()) {
+        ans.push_back(cur);
+        return;
+    }
+    for(int i = pos; i < A.size(); ++i) {
+        if(pal[pos][i]) {
+            cur.push_back(A.substr(pos, i-pos+1));
+            gen(A, i+1, cur);
+            cur.pop_back();
+        }
+    }
+}
+
+
+vector<vector<string> > Solution::partition(string A) {
+    pal.clear();
+    int n = A.size();
+    pal.resize(n, vector<bool> (n, false));
+    for(int i = n-1; i >= 0; --i) {
+        for(int j = i; j < n; ++j) {
+            if(i==j) {
+                pal[i][j] = true;
+            }
+            else if(A[i] == A[j]) {
+                if(i+1 == j) {
+                    pal[i][j] = true;
+                }
+                else {
+                    pal[i][j] = pal[i+1][j-1];
+                }
+            }
+        }
+    }
+    ans.clear();
+    vector<string> cur;
+    gen(A, 0, cur);
+    return ans;
+}
+
+```
 ## Palindrome Partitioning II
 ```cpp
 vector<vector<int>> dp;

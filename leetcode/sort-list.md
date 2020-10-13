@@ -11,6 +11,38 @@
  */
 class Solution {
 public:
+    ListNode * merge(ListNode * a, ListNode * b) {
+        if(!a)
+            return b;
+        if(!b)
+            return a;
+        if(a->val <= b->val) {
+            a->next = merge(a->next, b);
+            return a;
+        }
+        else {
+            b->next = merge(a, b->next);
+            return b;
+        }
+    }
+    ListNode* sortList(ListNode* head) {
+        if(!head or !head->next)
+            return head;
+        ListNode * fast = head, * slow = head;
+        while(fast && fast->next && fast->next->next) {
+            fast = fast->next->next;
+            slow = slow->next;
+        }
+        ListNode * b = slow->next;
+        slow->next = nullptr;
+        return merge(sortList(head), sortList(b));
+    }
+};
+```
+```cpp
+
+class Solution {
+public:
     ListNode* merge(ListNode* a, ListNode * b) {
         if(!a)
             return b;
