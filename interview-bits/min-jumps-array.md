@@ -41,3 +41,19 @@ int Solution::jump(vector<int> &A) {
     return (dp[0] == INT_MAX)? -1: dp[0];
 }
 ```
+```cpp
+
+int Solution::jump(vector<int> &A) {
+    const int inf = 1e7;
+    vector<int> dp(A.size(), inf);
+    dp[0] = 0;
+    for(int i= 0; i < A.size(); ++i) {
+        if(dp[i] >= inf)
+            return -1;
+        for(int j = 1; j <= A[i] && i+j < A.size(); ++j) {
+            dp[i+j] = min(dp[i+j], dp[i] + 1);
+        }
+    }
+    return dp.back();
+}
+```

@@ -15,3 +15,31 @@ int Solution::lis(const vector<int> &A) {
 }
 
 ```
+```cpp
+
+int Solution::lis(const vector<int> &A) {
+    vector<int> seq;
+    for(int i = 0; i < A.size(); ++i) {
+        if(seq.empty() or seq.back() < A[i])
+            seq.push_back(A[i]);
+        else {
+            auto iter = lower_bound(seq.begin(), seq.end(), A[i]);
+            *iter = A[i];
+        }
+    }
+    return seq.size();
+}
+```
+```cpp
+int Solution::lis(const vector<int> &A) {
+    vector<int> seq;
+    for(int i = 0; i < A.size(); ++i) {
+        auto iter = lower_bound(seq.begin(), seq.end(), A[i]);
+        if(iter == seq.end())
+            seq.push_back(A[i]);
+        else
+            *iter = A[i];
+    }
+    return seq.size();
+}
+```

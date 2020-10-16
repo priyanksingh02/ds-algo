@@ -23,3 +23,38 @@ vector<int> Solution::solve(TreeNode* root) {
     return {ans.rbegin(), ans.rend()};
 }
 ```
+
+```cpp
+vector<int> Solution::solve(TreeNode* A) {
+    vector<vector<int>> tmp;
+    vector<int> row;
+    if(!A)
+        return {};
+    queue<TreeNode*> q;
+    q.push(A);
+    q.push(nullptr);
+    while(!q.empty()) {
+        A = q.front(); q.pop();
+        if(A) {
+            row.push_back(A->val);
+            if(A->left)
+                q.push(A->left);
+            if(A->right)
+                q.push(A->right);
+        }
+        else {
+            tmp.push_back(row);
+            row.clear();
+            if(!q.empty())
+                q.push(nullptr);
+        }
+    }
+    reverse(tmp.begin(), tmp.end());
+    vector<int> ans;
+    for(auto & x: tmp) {
+        for(auto & y: x)
+            ans.emplace_back(y);
+    }
+    return ans;
+}
+```

@@ -48,6 +48,64 @@ int Solution::wordBreak(string A, vector<string> &B) {
 
 ```cpp
 
+int Solution::wordBreak(string A, vector<string> &B) {
+    vector<bool> dp (A.size() + 1, false);
+    dp[0] = true;
+    for(int i = 1; i <= A.size(); ++i) {
+        for(auto & s: B) {
+            int len = s.size();
+            int pos = i - len;
+            if(pos < 0)
+                continue;
+            if(dp[pos] && A.substr(pos, len) == s) {
+                dp[i] = true;
+                break;
+            }
+        }
+    }
+    return dp.back();
+}
+```
+
+```cpp
+struct node {
+    bool leaf = false;
+    unordered_map<char, node*> child;
+};
+
+void insert(node * root, const string & s) {
+    for(int i = 0; i < s.size(); ++i) {
+        if(root->child.count(s[i]) == 0)
+            root->child[s[i]] = new node();
+        root = root->child[s[i]];
+    }
+    root->leaf = true;
+}
+
+int Solution::wordBreak(string A, vector<string> &B) {
+    node * root = new node();
+    for(auto & s: B) {
+        insert(root, s);
+    }
+    vector<bool> dp (A.size() + 1, false);
+    dp[0] = true;
+    for(int i = 0; i < A.size(); ++i) {
+        if(dp[i]) {
+            node * iter = root;
+            int k = 0;
+            while(i+k < A.size() && iter->child.count(A[i+k])) {
+                iter = iter->child[A[i+k]];
+                if(iter->leaf)
+                    dp[i+k+1] = true;
+                k++;
+            }
+        }
+    }
+    return dp.back();
+}
+```
+```cpp
+
 struct node {
     bool isleaf;
     vector<node *> chars;
@@ -221,3 +279,4 @@ vector<string> Solution::wordBreak(string A, vector<string> &B) {
 }
 
 ```
+
