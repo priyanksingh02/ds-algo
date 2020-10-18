@@ -1,3 +1,41 @@
+Imagine a curve of gas usage at each stop;
+start with zero gas;
+                          /
+--.                      /
+   \                    /
+    \        /"\       /
+     ""\    /   \     /
+        \__/     \   /
+                  \_/ <- "A"
+
+Condition for -1:              
+If total usage reaches 0 or higher, then only it is possible to complete the trip
+
+
+Condition for start pos:
+The first gas station with positive diff and which comes after the global minima.
+
+If we start at "A", all the required gas value will be positive and we will be able to finish the entire Trip.
+```cpp
+int Solution::canCompleteCircuit(const vector<int> &A, const vector<int> &B) {
+    int n = A.size();
+    int gas = 0, lowestgas = 0;
+    int start = 0;
+    for(int i = 0; i < n; ++i) {
+        gas += A[i] - B[i];
+        if(gas < lowestgas) {
+            start = -1;
+        }
+        else if(gas > lowestgas && start == -1) {
+            start = i;
+        }
+        lowestgas = min(gas, lowestgas);
+    }
+    if(gas < 0)
+        return -1;
+    return start;
+}
+```
 O(n)
 ```cpp
 int Solution::canCompleteCircuit(const vector<int> &gas, const vector<int> &cost) {

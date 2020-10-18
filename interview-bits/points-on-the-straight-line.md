@@ -25,6 +25,44 @@ int Solution::maxPoints(vector<int> &A, vector<int> &B) {
 }
 ```
 ```cpp
+
+pair<int,int> slope(pair<int,int> a, pair<int,int> b) {
+    int x = a.first - b.first;
+    int y = a.second - b.second;
+    bool sign = (x < 0) ^ (y < 0);
+    x = abs(x);
+    y = abs(y);
+    int gcd = __gcd(x,y);
+    assert(gcd > 0);
+    x /= gcd;
+    y /= gcd;
+    if(sign)
+        return {-x, y};
+    return {x,y};
+}
+
+int Solution::maxPoints(vector<int> &A, vector<int> &B) {
+    if(A.empty()) return 0;
+    map<pair<int,int>,int> m;
+    for(int i = 0; i < A.size(); ++i) {
+        m[{A[i], B[i]}]++;
+    }
+    int maxpoints = 0;
+    for(auto & x: m) {
+        map<pair<int,int>,int> s;
+        maxpoints = max(maxpoints, x.second);
+        for(auto & y: m) {
+            if(y.first <= x.first)
+                continue;
+            auto sl = slope(x.first, y.first);
+            s[sl] += y.second;
+            maxpoints = max(maxpoints , x.second + s[sl]);
+        }
+    }
+    return maxpoints;
+}
+```
+```cpp
 int Solution::maxPoints(vector<int> &A, vector<int> &B) {
     map<pair<int,int>,int> points;
     for(int i = 0; i < A.size(); ++i) {
@@ -61,3 +99,4 @@ int Solution::maxPoints(vector<int> &A, vector<int> &B) {
     return ans;
 }
 ```
+

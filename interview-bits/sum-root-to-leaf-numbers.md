@@ -28,3 +28,26 @@ int Solution::sumNumbers(TreeNode* A) {
     return ans;
 }
 ```
+```cpp
+int ans;
+void add(TreeNode* root, int n) {
+    if(root) {
+        n = n*10 + root->val;
+        n %= 1003;
+        if(!root->left && !root->right) {
+            ans += n;
+            ans %= 1003;
+        }
+        if(root->left)
+            add(root->left, n);
+        if(root->right)
+            add(root->right, n);
+    }
+}
+int Solution::sumNumbers(TreeNode* A) {
+    if(!A) return 0;
+    ans = 0;
+    add(A, 0);
+    return ans;
+}
+```

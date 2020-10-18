@@ -17,6 +17,18 @@ int Solution::maxProfit(const vector<int> &A) {
 ```
 
 ```cpp
+
+int Solution::maxProfit(const vector<int> &A) {
+    int m = INT_MAX;
+    int ans = 0;
+    for(int i = 0; i < A.size(); ++i) {
+        m = min(A[i], m);
+        ans = max(ans, A[i] - m);
+    }
+    return ans;
+}
+```
+```cpp
 int Solution::maxProfit(const vector<int> &A) {
     int ans = 0;
     int max_till_now = 0;

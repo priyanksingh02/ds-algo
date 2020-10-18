@@ -1,6 +1,46 @@
 ```cpp
 
 struct node {
+    int cnt = 0;
+    unordered_map<char, node*> child;
+};
+
+void insert(node * root, const string & s) {
+    for(char c: s) {
+        if(!root->child.count(c))
+            root->child[c] = new node();
+        root = root->child[c];
+        root->cnt++;
+    }
+}
+
+string pref(node * root, const string & s) {
+    int k = 0;
+    for(char c: s) {
+        root = root->child[c];
+        if(root->cnt == 1)
+            break;
+        k++;
+    }
+    return s.substr(0, k+1);
+}
+
+vector<string> Solution::prefix(vector<string> &A) {
+    node * root = new node();
+    for(auto & word: A) {
+        insert(root, word);   
+    }
+    vector<string> ans;
+    for(auto & word: A) {
+        ans.emplace_back(pref(root, word));
+    }
+    return ans;
+}
+
+```
+```cpp
+
+struct node {
     int count;
     vector<node *> chars;
     node(): count(0), chars(vector<node *>(26, nullptr)) {}

@@ -22,3 +22,23 @@ int Solution::maxPathSum(TreeNode* A) {
     return pathsum(A).second;
 }
 ```
+```cpp
+
+pair<int,int> find(TreeNode * root) {
+    if(!root) {
+        return {0, INT_MIN};
+    }
+    if(!root->left && !root->right) {
+        return {root->val, root->val};
+    }
+    auto l = find(root->left);
+    auto r = find(root->right);
+    int max_height = root->val + max({0, l.first, r.first});
+    int cur_max = max({max_height, l.first + root->val + r.first});
+    return {max_height, max({cur_max, l.second, r.second})};
+} 
+
+int Solution::maxPathSum(TreeNode* root) {
+    return find(root).second;
+}
+```

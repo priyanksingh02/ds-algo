@@ -43,3 +43,55 @@ string Solution::solve(string A) {
     return pal(addone(A),A.size());
 }
 ```
+
+```cpp
+
+string add(string s) {
+    reverse(s.begin(), s.end());
+    string ans;
+    int carry = 1;
+    int i = 0;
+    while(i < s.size() or carry) {
+        int sum = carry;
+        if(i < s.size()) {
+            sum += s[i++] - '0';
+        }
+        ans.push_back(sum%10 + '0');
+        carry = sum/10;
+    }
+    reverse(ans.begin(), ans.end());
+    return ans;
+}
+
+string convert(const string & A) {
+    string ans = A;
+    int l = A.size()/2;
+    int n = A.size();
+    for(int i = 0; i < l; ++i) {
+        ans[n-1-i] = ans[i];
+    }
+    return ans;
+}
+
+string Solution::solve(string A) {
+    auto cA = convert(A);
+    if(cA > A)
+        return cA;
+    int l = (A.size()+1)/2;
+    auto str = add({A.begin(), A.begin()+l});
+    // cout << str << endl;
+    if(str.size() > l) {
+        string ans (A.size() + 1, '0');
+        ans.front() = '1';
+        ans.back() = '1';
+        return ans;
+    }
+    string ans = A;
+    int n = (int)ans.size() -1;
+    for(int i=0; i < str.size(); ++i) {
+        ans[i] = str[i];
+        ans[n-i] = str[i];
+    }
+    return ans;
+}
+```
