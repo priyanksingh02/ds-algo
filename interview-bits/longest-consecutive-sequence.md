@@ -22,6 +22,27 @@ int Solution::longestConsecutive(const vector<int> &A) {
 }
 
 ```
+```cpp
+
+int Solution::longestConsecutive(const vector<int> &A) {
+    set<int> st;
+    for(int x: A)
+        st.insert(x);
+    int maxlen = 0;
+    for(int x: st) {
+        if(st.count(x-1))
+            continue;
+        int len = 1;
+        int t = x+1;
+        while(st.count(t)) {
+            len++;
+            t += 1;
+        }
+        maxlen = max(maxlen, len);
+    }
+    return maxlen;
+}
+```
 O(nlogn)
 ```cpp
 
