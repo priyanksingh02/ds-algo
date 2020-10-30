@@ -1,4 +1,39 @@
 ```cpp
+void dfs(int i, int j, vector<vector<char>> & grid) {
+    if(i < 0 or j < 0 or i == grid.size() or j == grid[i].size() or grid[i][j] != 'O')
+        return;
+    grid[i][j] = 'M';
+    dfs(i-1,j, grid);
+    dfs(i+1,j, grid);
+    dfs(i, j-1, grid);
+    dfs(i, j+1, grid);
+}
+
+void Solution::solve(vector<vector<char> > &A) {
+    if(A.empty() or A[0].empty())
+        return ;
+    int m = A.size();
+    int n = A[0].size();
+    for(int i = 0; i < m; ++i) {
+        dfs(i, 0, A);
+        dfs(i, n-1, A);
+    }
+    for(int i = 0; i < n; ++i) {
+        dfs(0, i, A);
+        dfs(m-1, i, A);
+    }
+    for(int i = 0; i< m; ++i) {
+        for(int j = 0; j < n; ++j) {
+            if(A[i][j] == 'M')
+                A[i][j] = 'O';
+            else
+                A[i][j] = 'X';
+        }
+    }
+}
+
+```
+```cpp
 void Solution::solve(vector<vector<char> > &A) {
     // Do not write main() function.
     // Do not read input, instead use the arguments to the function.
