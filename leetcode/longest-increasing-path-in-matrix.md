@@ -1,3 +1,43 @@
+Idea: Start with the sinks, build a path in backward direction
+```cpp
+class Solution {
+public:
+    int longestIncreasingPath(vector<vector<int>>& matrix) {
+        if(matrix.empty() or matrix[0].empty())
+            return 0;
+        vector<pair<int,int>> idx;
+        int m = matrix.size();
+        int n = matrix[0].size();
+        for(int i =0; i < m; ++i) {
+            for(int j = 0;j < n; ++j) {
+                idx.push_back(make_pair(i,j));
+            }
+        }
+        sort(idx.begin(), idx.end(), [&](pair<int,int> & a, pair<int,int> & b){
+            return matrix[a.first][a.second] > matrix[b.first][b.second];
+        });
+        
+        vector<vector<int>> grid(m, vector<int> (n, 1));
+        int maxlen = 0;
+        auto valid = [&](int i, int j) {
+            return i >= 0 && j >= 0 && i < m && j < n;
+        };
+        vector<pair<int,int>> direction{{-1,0},{0,-1},{0,1},{1,0}};
+        for(auto & pr: idx) {
+            for(auto & d: direction) {
+                int i = pr.first + d.first;
+                int j = pr.second + d.second;
+                if(valid(i,j) && matrix[i][j] > matrix[pr.first][pr.second]) {
+                    grid[pr.first][pr.second] = max(grid[i][j] + 1, grid[pr.first][pr.second]);
+                }
+            }
+            maxlen = max(maxlen, grid[pr.first][pr.second]);
+        }
+        return maxlen;
+    }
+};
+   
+```
 ```cpp
 
 class Solution {
