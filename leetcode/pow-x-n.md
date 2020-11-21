@@ -22,3 +22,21 @@ public:
     }
 };
 ```
+```cpp
+class Solution {
+public:
+    double myPow(double x, int n) {
+        if(n < 0) {
+            return (1/x)*(1/myPow(x, -(n+1)));
+        }
+        double res = 1;
+        while(n) {
+            if(n&1)
+                res = x*res;
+            x *= x;
+            n >>= 1;
+        }
+        return res;
+    }
+};
+```
