@@ -39,6 +39,76 @@ public:
 ## Word Search II
 ```cpp
 struct node {
+    bool leaf = false;
+    unordered_map<char, node*> child;  
+};
+
+void insert(node* root, const string & s) {
+    for(const char & c: s) {
+        if(!root->child.count(c))
+            root->child[c] = new node();
+        root = root->child[c];
+    }
+    root->leaf =true;
+}
+
+class Solution {
+public:
+    const int dx[4] = {0, 0, -1, 1};
+    const int dy[4] = {1, -1, 0, 0};
+    
+    bool valid(int r, int c, int R, int C) {
+        return r >= 0 and c >= 0 and r < R and c < C;
+    }
+    
+    void dfs(int r, int c, vector<vector<char>> & board, node * root, string & cur, vector<string> & ans) {
+        if(root->leaf) {
+            root->leaf = false;
+            ans.push_back(cur);
+        }
+        char backup = board[r][c];
+        board[r][c] = '#';
+        int R = board.size();
+        int C = board[0].size();
+        for(int i = 0; i < 4; ++i) {
+            int x = r + dx[i];
+            int y = c + dy[i];
+            if(valid(x, y, R, C) && root->child.count(board[x][y])) {
+                cur.push_back(board[x][y]);
+                dfs(x, y, board, root->child[board[x][y]], cur, ans);
+                cur.pop_back();
+            }
+        }
+        board[r][c] = backup;
+    }
+    
+    vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
+        if(board.empty() or board[0].empty()) return {};
+        int R = board.size();
+        int C = board[0].size();
+        
+        node * root = new node();
+        for(auto & w: words) {
+            insert(root, w);
+        }
+        vector<string> ans;
+        string cur;
+        
+        for(int i = 0; i < R; ++i) {
+            for(int j = 0; j < C; ++j) {
+                if(root->child.count(board[i][j])) {
+                    cur.push_back(board[i][j]);
+                    dfs(i, j, board, root->child[board[i][j]], cur, ans);
+                    cur.pop_back();
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
+```cpp
+struct node {
     bool is_leaf;
     map<char, node *> chars;
     node(): is_leaf(false) {};

@@ -3,6 +3,44 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+int solve() {
+    int t;
+    cin >> t;
+    unordered_map<int,int> jump;
+    while(t--) {
+        int a , b;
+        cin >> a >> b;
+        jump[a] = b;
+    }
+    int n = 30;
+    const int inf = 2000;
+    vector<int> dp(n+1, inf);
+    dp[1] = 0;
+    for(int i = 1; i < 30; ++i) {
+        if(jump.count(i)) {
+            dp[jump[i]] = min(dp[jump[i]], dp[i]);
+        }
+        else {
+            for(int j = 1; j <= 6 && i + j <= n; ++j) {
+                dp[i+j] = min(dp[i+j], dp[i] + 1);
+            }
+        }
+    }
+    return dp.back();
+}
+
+int main() {
+	int t; 
+	cin >> t;
+	while(t--) {
+	    cout << solve() << endl;
+	}
+}
+```
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
 void solve() {
     int n = 30;
     vector<vector<pair<int,int>>> adj(n+1);
