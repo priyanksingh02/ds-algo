@@ -56,3 +56,24 @@ int Solution::compareVersion(string A, string B) {
         return ans;
 }
 ```
+
+```python
+class Solution:
+	def compareVersion(self, A, B):
+        a = [int(i) for i in A.split('.')]
+        # a = list(map(int, A.split('.')))
+        b = [int(i) for i in B.split('.')]
+        n = max(len(a),  len(b))
+        for i in range(n):
+            left = 0
+            right = 0
+            if(i < len(a)):
+                left = a[i]
+            if(i < len(b)):
+                right = b[i]
+            if(left < right): 
+                return -1
+            if(right < left): 
+                return 1
+        return 0
+```

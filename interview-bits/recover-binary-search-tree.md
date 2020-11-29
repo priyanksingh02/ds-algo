@@ -1,14 +1,26 @@
 ```cpp
-
-/**
- * Definition for binary tree
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
- */
+TreeNode * p = nullptr;
+pair<int, int> ans;
+void inorder(TreeNode * root) {
+    if(root) {
+        inorder(root->left);
+        if(p && p->val > root->val) {
+            ans.first = root->val;
+            if(ans.second < 0)
+                ans.second = p->val;
+        }
+        p = root;
+        inorder(root->right);
+    }
+}
+vector<int> Solution::recoverTree(TreeNode* A) {
+    p = nullptr;
+    ans.first = -1; ans.second = -1;
+    inorder(A);
+    return {ans.first, ans.second};
+}
+```
+```cpp
 TreeNode * p; // previous to root
 int larger, smaller;
 void inorder(TreeNode * root) {
