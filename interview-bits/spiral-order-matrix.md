@@ -59,3 +59,41 @@ vector<vector<int> > Solution::generateMatrix(int A) {
     return ans;
 }
 ```
+```cpp
+vector<vector<int> > Solution::generateMatrix(int n) {
+  vector<vector<int>> ans(n, vector<int> (n));
+  int top = 0, bottom = n-1, left = 0, right = n-1;
+  int value = 1, direction = 0;
+  while(top <= bottom && left <= right) {
+    switch(direction) {
+      case 0:
+        for(int i = left; i <= right; ++i) {
+          ans[top][i] = value++;   
+        }
+        top++;
+        break;
+      case 1:
+        for(int i = top; i <= bottom; ++i) {
+          ans[i][right] = value++;
+        }
+        right--;
+        break;
+      case 2:
+        for(int i = right; i >= left; --i) {
+          ans[bottom][i] = value++;
+        }
+        bottom--;
+        break;
+      case 3:
+        for(int i = bottom; i >= top; --i) {
+          ans[i][left] = value++;
+        }
+        left++;
+        break;
+    }
+    direction = (direction+1)%4;
+  }
+  return ans;
+}
+
+```
