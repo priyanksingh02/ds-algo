@@ -38,3 +38,34 @@ int Solution::lPalin(ListNode* A) {
     return true;
 }
 ```
+
+```cpp
+ListNode* rev(ListNode* head) {
+    ListNode * ans = nullptr;
+    while(head) {
+        ListNode * cur =head;
+        head = head->next;
+        cur->next = ans;
+        ans = cur;
+    }
+    return ans;
+}
+ 
+int Solution::lPalin(ListNode* A) {
+    if(!A or !A->next) return true;
+    ListNode * fast, * slow;
+    fast = slow = A;
+    while(fast && fast->next && fast->next->next) {
+        fast = fast->next->next;
+        slow = slow->next;
+    }
+    ListNode * B = slow->next;
+    slow->next = nullptr;
+    B = rev(B);
+    while(A && B && A->val == B->val) {
+        A = A->next;
+        B = B->next;
+    }
+    return !B;
+}
+```

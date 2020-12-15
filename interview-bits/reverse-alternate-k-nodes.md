@@ -42,3 +42,29 @@ ListNode* Solution::solve(ListNode* A, int B) {
     return A;
 }
 ```
+
+```cpp
+ListNode* Solution::solve(ListNode* A, int B) {
+    if(!A) return nullptr;
+    ListNode * t = A;
+    ListNode * ans = nullptr;
+    ListNode * tail = nullptr;
+    for(int i = 0; i < B; ++i) {
+        ListNode * cur = t;
+        t = t->next;
+        cur->next = ans;
+        ans = cur;
+        if(!tail) tail = ans;
+    }
+    if(!t) return ans;
+    tail->next = t;
+    ListNode * prev = nullptr;
+    for(int i = 0; i < B; ++i) {
+        prev = t;
+        t = t->next;
+    }
+    prev->next = solve(t, B);
+    return ans;
+    
+}
+```
