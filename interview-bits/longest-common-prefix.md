@@ -1,5 +1,18 @@
 ```cpp
+string Solution::longestCommonPrefix(vector<string> &A) {
+    if(A.empty()) return "";
+    sort(A.begin(), A.end());
+    int i = 0;
+    int lim = min(A.front().size(), A.back().size());
+    for(;i < lim; ++i) {
+        if(A.front()[i] != A.back()[i])
+            break;
+    }
+    return A.front().substr(0, i);
+}
+```
 
+```cpp
 string Solution::longestCommonPrefix(vector<string> &A) 
 {
     string s;
@@ -20,7 +33,6 @@ string Solution::longestCommonPrefix(vector<string> &A)
 ```
 
 ```cpp
- 
 struct node {
     bool isleaf;
     unordered_map<char, node *> chars;
@@ -57,10 +69,7 @@ string Solution::longestCommonPrefix(vector<string> &A) {
 ```
 
 Sorting time : O(nklogn) where k is length of string
-
-
 ```cpp
-
 struct node {
     bool isleaf;
     unordered_map<char, node*> chars;
