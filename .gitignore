@@ -1,3 +1,5 @@
-test/app
-test/main.cpp
-test/input.txt
+codejam/input.txt
+codejam/output.txt
+
+*.out
+*.exe
