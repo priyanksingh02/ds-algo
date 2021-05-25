@@ -41,4 +41,34 @@ int kthSmallest(int arr[], int l, int r, int k) {
     }
 }
 ```
+Accepted Solution:
 
+Random Swap was the key.
+```cpp
+class Solution{
+    public:
+    int kthSmallest(int arr[], int l, int r, int k) {
+        return helper(arr, l, r, k-1);
+    }
+
+    int helper(int arr[], int l, int r, int k) {
+        int pos = l;
+        swap(arr[rand()%(r-l+1) + l], arr[r]);
+        for(int i = l; i < r; ++i) {
+            if(arr[i] <= arr[r]) {
+                swap(arr[i], arr[pos++]);
+            }
+        }
+        swap(arr[r], arr[pos]);
+        if(pos == k) {
+            return arr[pos];
+        }
+        else if(pos < k) {
+            return helper(arr, pos+1, r, k);
+        }
+        else {
+            return helper(arr, l, pos-1, k);
+        }
+    }
+};
+```
