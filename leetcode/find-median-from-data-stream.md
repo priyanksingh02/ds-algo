@@ -10,6 +10,40 @@ public:
     }
     
     void addNum(int num) {
+        if(left.size() == right.size()) {
+            right.push(num);
+            left.push(right.top());
+            right.pop();
+        }
+        else {
+            left.push(num);
+            right.push(left.top());
+            left.pop();
+        }
+    }
+    
+    double findMedian() {
+        if(left.size() == 0)
+            return 0;
+        if(left.size() == right.size())
+            return ((double)left.top() + right.top())/2;
+        else 
+            return (double)left.top();   
+    }
+};
+
+```
+```cpp
+class MedianFinder {
+    priority_queue<int> left;
+    priority_queue<int, vector<int>, greater<int>> right;
+public:
+    /** initialize your data structure here. */
+    MedianFinder() {
+        
+    }
+    
+    void addNum(int num) {
         if(left.empty() or left.top() >= num)
             left.push(num);
         else
