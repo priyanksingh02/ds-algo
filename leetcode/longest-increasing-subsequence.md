@@ -16,3 +16,22 @@ public:
     }
 };
 ```
+
+Runtime: O(n logn) ; We traverse a maximum of height of subsequence in worst case.
+
+Idea: Try to create the sequence. The final sequence may not result in a correct answer but count will match the correct answer.
+```cpp
+int lengthOfLIS(vector<int>& nums) {
+    vector<int> seq;
+    for(int i = 0;i < nums.size(); ++i) {
+        int j = 0; 
+        while(j < seq.size() and seq[j] < nums[i])
+            j++;
+        if(j == seq.size())
+            seq.push_back(nums[i]);
+        else
+            seq[j] = nums[i];
+    }
+    return seq.size();
+}
+```
