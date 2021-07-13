@@ -28,3 +28,39 @@ public:
     }
 };
 ```
+
+```cpp
+class Solution {
+    map<char, string> keys = {
+        {'2', "abc"},
+        {'3', "def"},
+        {'4', "ghi"},
+        {'5', "jkl"},
+        {'6', "mno"},
+        {'7', "pqrs"},
+        {'8', "tuv"},
+        {'9', "wxyz"}
+    };
+public:
+    void gen(vector<string> & ans, string & cur, int pos, string & digits) {
+        if(pos == digits.size()) {
+            if(!cur.empty()) ans.push_back(cur);
+            return;
+        }
+        char choice = digits[pos];
+        for(int i = 0; i < keys[choice].size(); ++i) {
+            cur.push_back(keys[choice][i]);
+            gen(ans, cur, pos+1, digits);
+            cur.pop_back();
+        }
+    }
+    
+    vector<string> letterCombinations(string digits) {
+        vector<string> ans;
+        string cur;
+        gen(ans, cur, 0, digits);
+        return ans;
+    }
+};
+
+```
