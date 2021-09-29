@@ -28,3 +28,35 @@ vector<int> spirallyTraverse(vector<vector<int> > matrix, int r, int c) {
 }
 
 ```
+```cpp
+class Solution
+{   
+    public: 
+    //Function to return a list of integers denoting spiral traversal of matrix.
+    vector<int> spirallyTraverse(vector<vector<int> > matrix, int r, int c) 
+    {
+        // code here
+        vector<int> ans;
+        for(int i = 0, j = r-1, k = c-1; i <= min(j,k); ++i, --j, --k) {
+            for(int l = i; l <= k; ++l) {
+                ans.push_back(matrix[i][l]);
+            }
+            for(int l = i+1; l <= j; ++l) {
+                ans.push_back(matrix[l][k]);
+            }
+            if(i != j) {
+                for(int l = k-1; l >= i; --l) {
+                    ans.push_back(matrix[j][l]);
+                }
+            }
+            if(i != k) {
+                for(int l = j-1; l > i; --l) {
+                    ans.push_back(matrix[l][i]);
+                }
+            }
+        }
+        return ans;
+    }
+};
+
+```
