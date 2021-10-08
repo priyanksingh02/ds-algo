@@ -23,3 +23,43 @@ struct node *reverse (struct node *head, int k)
 }
 
 ```
+```cpp
+class Solution
+{
+    public:
+    node * rev(node * head) {
+        node * ans = nullptr;
+        while(head) {
+            node * tmp = head;
+            head = head->next;
+            tmp->next = ans;
+            ans = tmp;
+        }
+        return ans;
+    }
+    
+    struct node *reverse (struct node *head, int k)
+    { 
+        // Complete this method
+        if(!head) return head;
+        node dummy(0);
+        node * ans = &dummy;
+        node * future = head;
+        while(future) {
+            node * front = future;
+            node * tail = future;
+            int i = 1;
+            while(i < k && tail->next) {
+                ++i;
+                tail = tail->next;
+            }
+            future = tail->next;
+            tail->next = nullptr;
+            rev(front);
+            ans->next = tail;
+            ans = front;
+        }
+        return dummy.next;
+    }
+};
+```
